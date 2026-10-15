@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NOVA AI // Personal Intelligence</title>
+<title>عم أورا | AURA AI</title>
 <style>
 :root{color-scheme:dark;--bg:#050914;--panel:#0b1426;--line:#17385a;--blue:#45c7ff;--muted:#8ba8c4}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#102849 0,#050914 58%);color:#eaf7ff;font:15px system-ui, sans-serif;min-height:100vh}
@@ -14,16 +14,46 @@ h1{font-size:21px;letter-spacing:3px;margin:0}small,.sub{color:var(--muted)}.set
 input,select,textarea,button{font:inherit;color:inherit;background:#050b16;border:1px solid #204768;border-radius:10px;padding:11px;width:100%;outline:none}button{background:#103452;border-color:var(--blue);cursor:pointer;font-weight:700}button:disabled{opacity:.5;cursor:wait}
 .chat{flex:1;min-height:300px;display:flex;flex-direction:column;gap:12px}.messages{flex:1;display:flex;flex-direction:column;gap:10px;max-height:52vh;overflow:auto}.bubble{white-space:pre-wrap;overflow-wrap:anywhere;padding:12px 14px;border:1px solid var(--line);border-radius:13px;max-width:92%;line-height:1.55}.user{align-self:flex-end;background:#103452}.ai{align-self:flex-start;background:#0a1728}.composer{display:flex;gap:10px;align-items:stretch}.composer textarea{resize:vertical;min-height:52px;max-height:140px;flex:1}.composer button{width:100px}.note{font-size:12px;color:var(--muted);line-height:1.5}
 @media(max-width:600px){main{padding:12px}.settings{grid-template-columns:1fr}.wide{grid-column:auto}.composer button{width:82px}h1{font-size:18px}}
+
+/* AURA refresh: modern, responsive, Arabic-first */
+:root{--bg:#080b14;--panel:#101522;--line:#252e42;--blue:#7894ff;--cyan:#70e6ff;--muted:#98a4bb}
+body{background:radial-gradient(ellipse at 55% -20%,#1d3159 0,transparent 50%),#080b14;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
+main{max-width:1100px;padding:22px;gap:18px}
+header,.settings,.chat{border:1px solid #ffffff12;background:#0e1320e8;border-radius:22px;box-shadow:0 16px 55px #0002;backdrop-filter:blur(18px)}
+header{padding:20px;gap:16px;position:relative;overflow:hidden}
+.core{width:58px;height:58px;border:0;background:radial-gradient(circle at 32% 25%,#f4ffff 0,#7beaff 8%,#5b9dff 31%,#775bff 58%,#121a35 74%);color:#fff;font-size:0;box-shadow:0 0 24px #5b9dff42,0 0 65px #745bff22;position:relative}
+.core:after{content:"A";font-size:24px;font-weight:900;position:absolute;inset:0;display:grid;place-items:center;color:#f2fbff}
+h1{font-size:23px;letter-spacing:1.5px;margin:0 0 3px}
+header .sub{font-size:11px;letter-spacing:2px}
+.settings{grid-template-columns:minmax(0,1fr) minmax(180px,.6fr);padding:18px;gap:14px}
+label{font-size:11px;letter-spacing:.3px}
+input,select,textarea{background:#090e18;border:1px solid #2b3850;border-radius:12px;padding:13px;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:#70e6ff;box-shadow:0 0 0 3px #70e6ff10}
+button{border-radius:12px;background:linear-gradient(120deg,#183453,#20264a);border:1px solid #6e9dff66;transition:transform .15s,filter .15s}
+button:hover{filter:brightness(1.18);transform:translateY(-1px)}
+.settings .wide button{background:linear-gradient(110deg,#79e9ff,#8b8cff);color:#08101e;border:0}
+.chat{padding:0;overflow:hidden;gap:0}
+.messages{padding:20px;gap:14px;max-height:58vh}
+.bubble{padding:14px 16px;border-radius:17px;line-height:1.75;font-size:14px;border:1px solid #ffffff0c;box-shadow:0 8px 24px #0002}
+.bubble.user{background:linear-gradient(130deg,#25426a,#29345b);border-color:#7da8ff35;align-self:flex-start}
+.bubble.ai{background:#171e2e;align-self:flex-end}
+.composer{padding:15px;border-top:1px solid #ffffff0d;display:flex;gap:10px;align-items:stretch}
+.composer textarea{flex:1;min-height:52px;resize:vertical}
+.composer button{width:96px;background:linear-gradient(135deg,#79e9ff,#8b8cff);color:#08101e;border:0}
+.note{font-size:11px;line-height:1.65}
+#status{padding:8px 10px;border:1px solid #ffffff0d;border-radius:10px;background:#ffffff05}
+@media(max-width:600px){main{padding:12px;gap:12px}header{padding:15px}.settings{grid-template-columns:1fr;padding:14px}.wide{grid-column:auto}h1{font-size:20px}.messages{padding:13px;max-height:52vh}.composer{padding:10px}.composer button{width:78px}}
+
 </style></head>
 <body><main>
-<header><div class="core">N</div><div><h1>NOVA AI</h1><div class="sub">PERSONAL INTELLIGENCE // BETA</div></div></header>
+<header><div class="core">A</div><div><h1>عم أورا · AURA AI</h1><div class="sub">YOUR PERSONAL AI SPACE // BETA</div></div></header>
 <section class="settings">
 <div><label for="key">Gemini API key (used only in this page)</label><input id="key" type="password" autocomplete="off" placeholder="Paste your own key"></div>
 <div><label for="model">AI MODEL</label><select id="model"><option value="gemini-3.8-flash">Gemini 3.8 Flash</option><option value="gemini-2.5-flash">Gemini 2.5 Flash</option></select></div>
 <div class="wide"><button id="save" type="button">Use key for this session</button></div>
 </section>
-<section class="chat"><div id="messages" class="messages"><div class="bubble ai">NOVA online. Add your own API key, then ask me anything. Your key is not saved by this page.</div></div>
-<div class="composer"><textarea id="prompt" placeholder="Message NOVA..." rows="2"></textarea><button id="send">SEND</button></div><div id="status" class="note">Ready · Key stays in memory until you close or reload this page.</div></section>
+<section class="chat"><div id="messages" class="messages"><div class="bubble ai">عم أورا جاهز. Add your own API key, then ask me anything. Your key is not saved by this page.</div></div>
+<div class="composer"><textarea id="prompt" placeholder="اكتب رسالتك لعم أورا..." rows="2"></textarea><button id="send">SEND</button></div><div id="status" class="note">Ready · Key stays in memory until you close or reload this page.</div></section>
 <div class="note">Prototype note: this browser demo sends requests directly to Google's Gemini API. For a public production app, use a backend proxy and server-side secret storage instead of asking every visitor to paste a key.</div>
 </main>
 <script>
