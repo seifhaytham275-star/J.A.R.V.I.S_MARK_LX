@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NOVA AI // Personal Intelligence</title>
+<style>
+:root{color-scheme:dark;--bg:#050914;--panel:#0b1426;--line:#17385a;--blue:#45c7ff;--muted:#8ba8c4}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#102849 0,#050914 58%);color:#eaf7ff;font:15px system-ui, sans-serif;min-height:100vh}
+main{max-width:900px;margin:auto;padding:22px;display:flex;flex-direction:column;min-height:100vh;gap:16px}
+header{display:flex;align-items:center;gap:14px;border:1px solid var(--line);background:#07101de8;padding:16px;border-radius:18px}
+.core{width:52px;height:52px;border-radius:50%;border:2px solid var(--blue);box-shadow:0 0 24px #45c7ff55,inset 0 0 16px #45c7ff55;display:grid;place-items:center;color:var(--blue);font-weight:800}
+h1{font-size:21px;letter-spacing:3px;margin:0}small,.sub{color:var(--muted)}.settings,.chat{border:1px solid var(--line);background:#07101de8;border-radius:18px;padding:16px}
+.settings{display:grid;grid-template-columns:1fr 1fr;gap:12px}.wide{grid-column:1/-1}label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
+input,select,textarea,button{font:inherit;color:inherit;background:#050b16;border:1px solid #204768;border-radius:10px;padding:11px;width:100%;outline:none}button{background:#103452;border-color:var(--blue);cursor:pointer;font-weight:700}button:disabled{opacity:.5;cursor:wait}
+.chat{flex:1;min-height:300px;display:flex;flex-direction:column;gap:12px}.messages{flex:1;display:flex;flex-direction:column;gap:10px;max-height:52vh;overflow:auto}.bubble{white-space:pre-wrap;overflow-wrap:anywhere;padding:12px 14px;border:1px solid var(--line);border-radius:13px;max-width:92%;line-height:1.55}.user{align-self:flex-end;background:#103452}.ai{align-self:flex-start;background:#0a1728}.composer{display:flex;gap:10px;align-items:stretch}.composer textarea{resize:vertical;min-height:52px;max-height:140px;flex:1}.composer button{width:100px}.note{font-size:12px;color:var(--muted);line-height:1.5}
+@media(max-width:600px){main{padding:12px}.settings{grid-template-columns:1fr}.wide{grid-column:auto}.composer button{width:82px}h1{font-size:18px}}
+</style></head>
+<body><main>
+<header><div class="core">N</div><div><h1>NOVA AI</h1><div class="sub">PERSONAL INTELLIGENCE // BETA</div></div></header>
+<section class="settings">
+<div><label for="key">Gemini API key (used only in this page)</label><input id="key" type="password" autocomplete="off" placeholder="Paste your own key"></div>
+<div><label for="model">AI MODEL</label><select id="model"><option value="gemini-3.8-flash">Gemini 3.8 Flash</option><option value="gemini-2.5-flash">Gemini 2.5 Flash</option></select></div>
+<div class="wide"><button id="save" type="button">Use key for this session</button></div>
+</section>
+<section class="chat"><div id="messages" class="messages"><div class="bubble ai">NOVA online. Add your own API key, then ask me anything. Your key is not saved by this page.</div></div>
+<div class="composer"><textarea id="prompt" placeholder="Message NOVA..." rows="2"></textarea><button id="send">SEND</button></div><div id="status" class="note">Ready · Key stays in memory until you close or reload this page.</div></section>
+<div class="note">Prototype note: this browser demo sends requests directly to Google's Gemini API. For a public production app, use a backend proxy and server-side secret storage instead of asking every visitor to paste a key.</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);let apiKey='';let history=[];
+$('save').onclick=()=>{apiKey=$('key').value.trim();$('status').textContent=apiKey?'Key loaded for this session.':'Paste a key first.'};
+function add(text,who){const el=document.createElement('div');el.className='bubble '+who;el.textContent=text;$('messages').appendChild(el);$('messages').scrollTop=$('messages').scrollHeight}
+async function send(){const prompt=$('prompt').value.trim();if(!prompt)return;if(!apiKey)apiKey=$('key').value.trim();if(!apiKey){$('status').textContent='Add your Gemini API key first.';return}
+$('prompt').value='';$('send').disabled=true;$('status').textContent='NOVA is thinking…';add(prompt,'user');
+try{const res=await fetch('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':apiKey},body:JSON.stringify({model:$('model').value,input:prompt})});
+const data=await res.json();if(!res.ok)throw new Error(data?.error?.message||('Request failed: '+res.status));
+const answer=data.output_text||data.output?.map(x=>x?.text||x?.content?.map(y=>y.text||'').join('')).filter(Boolean).join('\n')||JSON.stringify(data);add(answer,'ai');$('status').textContent='Response received.';
+}catch(e){add('I could not complete that request. '+e.message,'ai');$('status').textContent='Check the key, model access, internet, and API quota.'}
+finally{$('send').disabled=false;$('prompt').focus()}}
+$('send').onclick=send;$('prompt').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});$('key').addEventListener('input',()=>{apiKey=''});
+</script></body></html>
