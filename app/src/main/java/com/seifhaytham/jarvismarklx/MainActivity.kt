@@ -34,7 +34,7 @@ class MainActivity : Activity() {
    thread {
     var connection: HttpURLConnection? = null
     try {
-     val endpoint = URL("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5_lite-flash_001:generateContent?key=" + URLEncoder.encode(apiKey, "UTF-8"))
+     val endpoint = URL("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=" + URLEncoder.encode(apiKey, "UTF-8"))
      connection = endpoint.openConnection() as HttpURLConnection
      connection.requestMethod = "POST"; connection.connectTimeout = 20000; connection.readTimeout = 60000; connection.doOutput = true
      connection.setRequestProperty("Content-Type", "application/json; charset=utf-8")
