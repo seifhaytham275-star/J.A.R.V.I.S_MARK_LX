@@ -53,11 +53,7 @@ class MainActivity : Activity() {
      connection.doOutput = true
      connection.setRequestProperty("Content-Type", "application/json; charset=utf-8")
 
-     val systemText = "You are J.A.R.V.I.S MARK LX, a capable, reliable personal AI assistant. " +
-      "Reply in Egyptian Arabic when the user writes Arabic, otherwise use natural English. " +
-      "Be helpful, accurate, clear, and concise. If uncertain, say so instead of inventing facts. " +
-      "For complicated requests, reason carefully and give practical steps. " +
-      "You cannot directly control the phone or open apps unless an Android action is implemented."
+     val systemText = "You are the language engine for a multi-persona AI app. Follow the active persona instructions included in the user prompt, while remaining accurate, helpful, and safe. Reply in Egyptian Arabic when the user writes Arabic, otherwise use natural English. Do not claim to control devices or access private systems unless explicitly implemented."
      val system = JSONObject().put("parts", JSONArray().put(JSONObject().put("text", systemText)))
      val parts = JSONArray().put(JSONObject().put("text", prompt))
      val contents = JSONArray().put(JSONObject().put("role", "user").put("parts", parts))
