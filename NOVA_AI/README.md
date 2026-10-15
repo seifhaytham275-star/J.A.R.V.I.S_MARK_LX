@@ -1,6 +1,6 @@
-# NOVA AI
+# عم أورا (AURA AI)
 
-A lightweight browser-based AI chat prototype with a blue sci-fi interface and selectable Gemini model.
+A lightweight browser-based AI chat prototype with a modern, Arabic-first blue/purple sci-fi interface and selectable Gemini model.
 
 ## Run
 Open `index.html` in a modern browser. Paste your own Gemini API key and press **Use key for this session**.
