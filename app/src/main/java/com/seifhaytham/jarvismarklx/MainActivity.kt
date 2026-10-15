@@ -32,7 +32,7 @@ class MainActivity : Activity() {
 
  inner class JarvisBridge {
   @JavascriptInterface
-  fun askGemini(apiKey: String, prompt: String, requestId: String) {
+  fun askGemini(apiKey: String, prompt: String, requestId: String, model: String) {
    if (apiKey.isBlank() || prompt.isBlank()) {
     respond(requestId, null, "Add your Gemini API key and a message first.")
     return
@@ -40,8 +40,10 @@ class MainActivity : Activity() {
    thread {
     var connection: HttpURLConnection? = null
     try {
+     val allowedModels = setOf("gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.1-pro-preview", "gemini-2.5-flash")
+     val selectedModel = if (model in allowedModels) model else "gemini-3.8-flash"
      val endpoint = URL(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+      "https://generativelanguage.googleapis.com/v1beta/models/" + selectedModel + ":generateContent?key=" +
        URLEncoder.encode(apiKey.trim(), "UTF-8")
      )
      connection = endpoint.openConnection() as HttpURLConnection
@@ -75,7 +77,7 @@ class MainActivity : Activity() {
       val message = when (code) {
        400 -> "Gemini rejected the request. Check the API key and request settings. $apiMessage".trim()
        401, 403 -> "Gemini API key is invalid or does not have permission. Check your key in Google AI Studio. $apiMessage".trim()
-       404 -> "Gemini model endpoint was not found. Check that the API supports gemini-2.5-flash. $apiMessage".trim()
+       404 -> "The selected Gemini model ($selectedModel) is unavailable for this API key or endpoint. Try another model in the selector. $apiMessage".trim()
        429 -> "Gemini is busy or the API quota/rate limit was reached. Wait a little and try again. $apiMessage".trim()
        else -> "Gemini API error ($code). Check your internet connection and API key. $apiMessage".trim()
       }
