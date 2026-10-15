@@ -1,0 +1,21 @@
+
+name: Check JARVIS project files
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download project files
+        uses: actions/checkout@v4
+
+      - name: List project files
+        run: |
+          echo "Project root:"
+          ls -la
+          echo "Android app directory:"
+          ls -la app || true
+          echo "Gradle wrapper:"
+          ls -la gradlew || true
